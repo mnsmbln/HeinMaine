@@ -1,6 +1,6 @@
 # Hein & Maine 🤍
 
-A cozy, private long-distance relationship website for two. Built with React + Vite + Firebase Firestore.
+A cozy, private long-distance relationship website for two. Built with React + Vite + Supabase (PostgreSQL).
 
 ---
 
@@ -18,15 +18,11 @@ A cozy, private long-distance relationship website for two. Built with React + V
 ## Setup
 
 ### Prerequisites
-
 - **Node.js 18+** — download from [nodejs.org](https://nodejs.org)
-- An internet connection (for Firebase + Google Fonts)
 
 ---
 
 ### 1. Install dependencies
-
-Open your terminal, navigate to this folder, and run:
 
 ```bash
 npm install
@@ -34,159 +30,129 @@ npm install
 
 ---
 
-### 2. Create your Firebase project
+### 2. Create your Supabase project
 
-> This takes about 5 minutes and is completely free.
+> Free forever, no credit card needed.
 
-1. Go to **[console.firebase.google.com](https://console.firebase.google.com)**
-2. Sign in with a Google account
-3. Click **"Add project"** → name it `hein-and-maine` → Continue
-4. Disable Google Analytics (you don't need it) → **Create project**
-
-**Add a Web App:**
-
-5. On the project overview page, click the **`</>`** (Web) icon
-6. Give it a nickname: `hein-and-maine` → click **Register app**
-7. You'll see a `firebaseConfig` object — **keep this page open**
-
-**Enable Firestore:**
-
-8. In the left sidebar: **Build → Firestore Database**
-9. Click **Create database**
-10. Choose **"Start in test mode"** → Next
-11. Pick a region close to you (e.g. `us-east1`) → **Enable**
+1. Go to **[supabase.com](https://supabase.com)** → sign up with GitHub or email
+2. Click **"New project"**
+3. Name it `hein-and-maine`, set a database password, pick a region → **Create project**
+4. Wait about 2 minutes for it to spin up
 
 ---
 
-### 3. Paste your Firebase credentials
+### 3. Get your credentials
 
-Open **`src/firebase.js`** and replace each `"YOUR_..."` placeholder with the values from your Firebase console:
+1. In the left sidebar go to **Project Settings → API**
+2. Copy **Project URL** (looks like `https://xxxx.supabase.co`)
+3. Copy **anon public** key (a long string starting with `eyJ...`)
+4. Open **`src/supabase.js`** and paste them in:
 
 ```js
-const firebaseConfig = {
-  apiKey:            "AIzaSy...",          // ← from Firebase console
-  authDomain:        "hein-and-maine.firebaseapp.com",
-  projectId:         "hein-and-maine",
-  storageBucket:     "hein-and-maine.appspot.com",
-  messagingSenderId: "123456789",
-  appId:             "1:123456789:web:abc...",
-}
+const SUPABASE_URL      = 'https://xxxx.supabase.co'   // ← your URL
+const SUPABASE_ANON_KEY = 'eyJ...'                      // ← your anon key
 ```
-
-Save the file. That's the only thing you need to change.
 
 ---
 
-### 4. Run the app locally
+### 4. Create the database tables
+
+1. In the Supabase sidebar go to **SQL Editor** → **New query**
+2. Paste the entire block below and click **Run**:
+
+```sql
+-- Watchlist table
+CREATE TABLE watchlist (
+  id         UUID        DEFAULT gen_random_uuid() PRIMARY KEY,
+  title      TEXT        NOT NULL,
+  type       TEXT        NOT NULL,
+  watch_date TEXT,
+  added_by   TEXT        NOT NULL,
+  watched    BOOLEAN     DEFAULT FALSE,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Notes table
+CREATE TABLE notes (
+  id         UUID        DEFAULT gen_random_uuid() PRIMARY KEY,
+  sender     TEXT        NOT NULL,
+  text       TEXT        NOT NULL,
+  link_url   TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Journal table
+CREATE TABLE journal (
+  id         UUID        DEFAULT gen_random_uuid() PRIMARY KEY,
+  written_by TEXT        NOT NULL,
+  title      TEXT        NOT NULL,
+  content    TEXT        NOT NULL,
+  mood       TEXT,
+  song_url   TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Allow public read/write (safe for a private two-person site)
+ALTER TABLE watchlist ENABLE ROW LEVEL SECURITY;
+ALTER TABLE notes     ENABLE ROW LEVEL SECURITY;
+ALTER TABLE journal   ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "allow all" ON watchlist FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "allow all" ON notes     FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "allow all" ON journal   FOR ALL USING (true) WITH CHECK (true);
+
+-- Enable real-time updates
+ALTER TABLE watchlist REPLICA IDENTITY FULL;
+ALTER TABLE notes     REPLICA IDENTITY FULL;
+ALTER TABLE journal   REPLICA IDENTITY FULL;
+
+ALTER PUBLICATION supabase_realtime ADD TABLE watchlist;
+ALTER PUBLICATION supabase_realtime ADD TABLE notes;
+ALTER PUBLICATION supabase_realtime ADD TABLE journal;
+```
+
+---
+
+### 5. Run the app locally
 
 ```bash
 npm run dev
 ```
 
-Open your browser to **http://localhost:5173** — the site should load with the warm cozy design.
-
-> **Note about the clocks:** They tick live in your browser, no Firebase needed.  
-> **Note about Firestore features:** Once your Firebase credentials are pasted, the Watch Together, Love Notes, and Journal sections will sync in real time between any two devices.
+Open **http://localhost:5173**
 
 ---
 
-### 5. Deploy to Vercel (free, takes ~2 minutes)
-
-Vercel gives you a live URL so both of you can access the site from anywhere.
-
-**Option A — Vercel CLI (easiest):**
+### 6. Deploy to Vercel
 
 ```bash
-# Install Vercel CLI globally (one-time)
 npm install -g vercel
-
-# Log in to Vercel
 vercel login
-
-# Deploy from inside your project folder
 vercel
 ```
 
-Follow the prompts:
-- Set up and deploy? → `Y`
-- Which scope? → your personal account
-- Link to existing project? → `N`
-- Project name → `hein-and-maine` (or anything you like)
-- In which directory is your code? → `.` (current directory)
-- Override settings? → `N`
-
-Your site will be live at a URL like `https://hein-and-maine.vercel.app` 🎉
-
-**Option B — GitHub + Vercel dashboard:**
-
-1. Push this folder to a private GitHub repo
-2. Go to [vercel.com](https://vercel.com) → New Project → Import your repo
-3. No environment variables needed (Firebase config is in source)
-4. Click Deploy
-
-> **No environment variables needed** — Firebase config lives directly in `src/firebase.js`. For a private two-person site this is fine.
+Or connect your GitHub repo at [vercel.com](https://vercel.com) → New Project → Import → Deploy.
 
 ---
 
-## ⚠️ Important: Firestore rules expiry
-
-Firestore "test mode" rules **expire after 30 days**. After that, the app will stop being able to read/write data.
-
-To fix it, open Firestore in your Firebase console → **Rules** tab → replace everything with:
+## Database schema
 
 ```
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if true;
-    }
-  }
-}
+watchlist  — id, title, type, watch_date, added_by, watched, created_at
+notes      — id, sender, text, link_url, created_at
+journal    — id, written_by, title, content, mood, song_url, created_at
 ```
-
-Click **Publish**. This is safe for a private two-person site.
-
----
-
-## Color Palette
-
-| Name | Hex |
-|------|-----|
-| Cream | `#FDF6EC` |
-| Cream Dark | `#F0E6D3` |
-| Terracotta | `#C5705D` |
-| Dusty Rose | `#D4A5A5` |
-| Soft Brown | `#8B6355` |
-| Muted Green | `#8FAF8B` |
 
 ---
 
 ## Tech Stack
 
-- **React 18** + **Vite 5** — fast modern frontend
-- **Tailwind CSS 3** — utility-first styling with custom earthy palette
-- **Firebase Firestore v10** — real-time shared database (free Spark plan)
-- **Google Fonts** — Playfair Display (serif) + Lato (sans-serif)
-- **react-icons** — icon set
-- **Intl API** — timezone formatting (no date library needed)
-
----
-
-## Firestore data structure
-
-```
-watchlist/
-  {docId}: { title, type, watchDate, addedBy, watched, createdAt }
-
-notes/
-  {docId}: { from, text, linkUrl, createdAt }
-
-journal/
-  {docId}: { writtenBy, title, content, mood, songUrl, createdAt }
-```
+- **React 18** + **Vite 5**
+- **Tailwind CSS 3** — custom earthy palette
+- **Supabase** — PostgreSQL database + real-time subscriptions
+- **Google Fonts** — Playfair Display + Lato
+- **react-icons**
 
 ---
 
 *made with love, for Hein & Maine 🌍❤️*
-# HeinMaine
