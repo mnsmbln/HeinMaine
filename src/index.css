@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Base ──────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Lato', system-ui, sans-serif;
+  background-color: #FDF6EC;
+  color: #8B6355;
+  min-height: 100vh;
+}
+
+/* ─── Masonry grid for Love Notes ───────────────────────── */
+.masonry-grid {
+  columns: 1;
+  column-gap: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .masonry-grid {
+    columns: 2;
+  }
+}
+
+@media (min-width: 1024px) {
+  .masonry-grid {
+    columns: 3;
+  }
+}
+
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: 1.25rem;
+  display: inline-block;
+  width: 100%;
+}
+
+/* ─── Custom scrollbar ──────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F0E6D3;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D4A5A5;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #C5705D;
+}
+
+/* ─── Smooth scroll ─────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ─── Focus ring ─────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid #C5705D;
+  outline-offset: 2px;
+}
+
+/* ─── Selection ──────────────────────────────────────────── */
+::selection {
+  background-color: #D4A5A5;
+  color: #5C3D2E;
+}
+
+/* ─── Input / select / textarea base ────────────────────── */
+input, select, textarea {
+  font-family: 'Lato', system-ui, sans-serif;
+}
