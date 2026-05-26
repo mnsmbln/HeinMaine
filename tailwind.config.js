@@ -4,19 +4,19 @@ export default {
   theme: {
     extend: {
       colors: {
-        cream:              '#F1F4EC',  // warm sage white — page background
-        'cream-dark':       '#E3E9D6',  // light sage — cards, forms
-        'cream-darker':     '#C8D5B8',  // medium sage — borders, hover
-        terracotta:         '#5B7F4E',  // moss green — buttons, active tab, accents
-        'terracotta-light': '#72A063',  // lighter moss — hover
-        'terracotta-dark':  '#3F5C35',  // deep forest — darker hover
-        rose:               '#93B285',  // dusty leaf green — soft accents
-        'rose-light':       '#BDD4B0',  // light leaf — hover states
-        brown:              '#4A6340',  // rich forest — body text
-        'brown-light':      '#7A9E6E',  // sage — muted labels
-        'brown-dark':       '#2C3E27',  // deep forest — headings
-        green:              '#82B86E',  // bright leaf — badges, note cards
-        'green-light':      '#B8D9A8',  // light leaf — badge backgrounds
+        cream:              '#151E12',  // near-black forest — page background
+        'cream-dark':       '#1E2A1A',  // dark forest — cards, forms
+        'cream-darker':     '#2A3824',  // deep forest — borders
+        terracotta:         '#6DAF56',  // glowing leaf green — buttons, active tab
+        'terracotta-light': '#85C96D',  // bright leaf — hover
+        'terracotta-dark':  '#518040',  // deep leaf — darker hover
+        rose:               '#4E7244',  // muted forest — soft accent
+        'rose-light':       '#38542E',  // darker forest — hover
+        brown:              '#B8D4A0',  // pale sage — body text
+        'brown-light':      '#6E9960',  // medium sage — muted labels
+        'brown-dark':       '#DCF0CC',  // near-white sage — headings
+        green:              '#78B860',  // bright leaf — badges
+        'green-light':      '#243620',  // very dark leaf — badge backgrounds
       },
       fontFamily: {
         serif: ['"Playfair Display"', 'Georgia', '"Times New Roman"', 'serif'],
@@ -29,8 +29,8 @@ export default {
       },
       keyframes: {
         'pulse-soft': {
-          '0%, 100%': { boxShadow: '0 0 0 0 rgba(91, 127, 78, 0)' },
-          '50%':       { boxShadow: '0 0 0 10px rgba(91, 127, 78, 0.15)' },
+          '0%, 100%': { boxShadow: '0 0 0 0 rgba(109, 175, 86, 0)' },
+          '50%':       { boxShadow: '0 0 0 14px rgba(109, 175, 86, 0.2)' },
         },
         'fade-in-up': {
           '0%':   { opacity: '0', transform: 'translateY(12px)' },
@@ -42,8 +42,8 @@ export default {
         },
       },
       boxShadow: {
-        'warm':    '0 4px 20px rgba(139, 99, 85, 0.12)',
-        'warm-lg': '0 8px 32px rgba(139, 99, 85, 0.18)',
+        'warm':    '0 4px 20px rgba(0, 0, 0, 0.35)',
+        'warm-lg': '0 8px 32px rgba(0, 0, 0, 0.5)',
       },
     },
   },
