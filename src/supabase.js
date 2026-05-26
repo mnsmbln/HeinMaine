@@ -21,7 +21,7 @@
 
 import { createClient } from '@supabase/supabase-js'
 
-const SUPABASE_URL      = 'YOUR_SUPABASE_URL'       // ← paste here  e.g. https://xxxx.supabase.co
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'  // ← paste here  starts with eyJ...
+const SUPABASE_URL      = 'https://eyhpbxniyuhdimqqngzf.supabase.co'
+const SUPABASE_ANON_KEY = 'sb_publishable_i26Hgp-19EyYWqgWEEp7Gw_z9BcyDYH'
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
