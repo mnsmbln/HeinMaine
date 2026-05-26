@@ -7,12 +7,9 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          // Split Firebase into its own chunk
-          firebase: ['firebase/app', 'firebase/firestore'],
-          // Split React into its own chunk
-          react: ['react', 'react-dom'],
-          // Split icons into their own chunk
-          icons: ['react-icons'],
+          supabase: ['@supabase/supabase-js'],
+          react:    ['react', 'react-dom'],
+          icons:    ['react-icons'],
         },
       },
     },
