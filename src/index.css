@@ -9,8 +9,8 @@
 
 body {
   font-family: 'Lato', system-ui, sans-serif;
-  background-color: #FDF6EC;
-  color: #8B6355;
+  background-color: #F1F4EC;
+  color: #4A6340;
   min-height: 100vh;
 }
 
@@ -45,16 +45,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #F0E6D3;
+  background: #E3E9D6;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #D4A5A5;
+  background: #93B285;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #C5705D;
+  background: #5B7F4E;
 }
 
 /* ─── Smooth scroll ─────────────────────────────────────── */
@@ -70,8 +70,8 @@ html {
 
 /* ─── Selection ──────────────────────────────────────────── */
 ::selection {
-  background-color: #D4A5A5;
-  color: #5C3D2E;
+  background-color: #BDD4B0;
+  color: #2C3E27;
 }
 
 /* ─── Input / select / textarea base ────────────────────── */

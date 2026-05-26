@@ -5,10 +5,10 @@ import LoadingSpinner from './LoadingSpinner'
 
 // ── Note card color palette ──────────────────────────────────────────────────
 const NOTE_COLORS = [
-  { bg: 'bg-cream-dark',    border: 'border-rose' },
-  { bg: 'bg-[#FFF9ED]',     border: 'border-[#E8C98A]' },
-  { bg: 'bg-[#F5EDEB]',     border: 'border-terracotta/40' },
-  { bg: 'bg-[#EEF3EE]',     border: 'border-green' },
+  { bg: 'bg-cream-dark',   border: 'border-rose' },           // light sage
+  { bg: 'bg-[#EBF0E0]',   border: 'border-[#A8C498]' },      // soft leaf
+  { bg: 'bg-[#E4EDDA]',   border: 'border-terracotta/40' },  // dusty moss
+  { bg: 'bg-[#EFF3E7]',   border: 'border-green' },          // warm sage
 ]
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
